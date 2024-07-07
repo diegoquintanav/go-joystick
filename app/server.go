@@ -25,7 +25,7 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 	// Set the CheckOrigin function to allow requests from the client
 	upgrader.CheckOrigin = func(r *http.Request) bool {
-		return r.Header.Get("Origin") == "http://localhost:8081"
+		return true
 	}
 
 	// Upgrade the HTTP server connection to the WebSocket protocol

@@ -8,10 +8,11 @@
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-100">
 
-<div id="input" class="flex space-x-8">
+<div class="flex space-x-8">
 	<div class="flex flex-col space-y-2">
         <button id="open" class="w-24 h-24 bg-green-500 text-white text-xl flex items-center justify-center rounded shadow-lg" onclick="sendAction('Action 1')">Connect</button>
         <button id="close" class="w-24 h-24 bg-green-500 text-white text-xl flex items-center justify-center rounded shadow-lg" onclick="sendAction('Action 2')">Disconnect</button>
+		<input id="joystick-id" type="text" value="my-random-alias">
     </div>
     <div class="grid grid-cols-3 grid-rows-3 gap-2">
         <button id="d-up" class="col-start-2 row-start-1 w-24 h-24 bg-blue-500 text-white text-xl flex items-center justify-center rounded shadow-lg" onclick="sendDirection('Up')">Up</button>
@@ -33,7 +34,7 @@
 	window.addEventListener("load", function(evt) {
 
 		var output = document.getElementById("output");
-		var input = document.getElementById("input");
+		var joystickId = document.getElementById("joystick-id");
 		var ws;
 		
 		var printToOutput = function(message) {
@@ -49,17 +50,17 @@
 			}
 			ws = new WebSocket("{{.}}");
 			ws.onopen = function(evt) {
-				printToOutput("OPEN");
+				printToOutput("(" + joystickId.value + ") OPEN");
 			}
 			ws.onclose = function(evt) {
-				printToOutput("CLOSE");
+				printToOutput("(" + joystickId.value + ") CLOSE");
 				ws = null;
 			}
 			ws.onmessage = function(evt) {
-				printToOutput("RESPONSE: " + evt.data);
+				printToOutput("(" + joystickId.value + ") RESPONSE: " + evt.data);
 			}
 			ws.onerror = function(evt) {
-				printToOutput("ERROR: " + evt.data);
+				printToOutput("(" + joystickId.value + ") ERROR: " + evt.data);
 			}
 			return false;
 		};
@@ -68,8 +69,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("MOVE: UP");
-			ws.send("move_up");
+			printToOutput("(" + joystickId.value + ") MOVE: UP");
+			ws.send(joystickId.value + "_move_up");
 			return false;
 		};
 
@@ -77,8 +78,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("MOVE: LEFT");
-			ws.send("move_left");
+			printToOutput("(" + joystickId.value + ") MOVE: LEFT");
+			ws.send(joystickId.value + "_move_left");
 			return false;
 		};
 
@@ -86,8 +87,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("MOVE: DOWN");
-			ws.send("move_down");
+			printToOutput("(" + joystickId.value + ") MOVE: DOWN");
+			ws.send(joystickId.value + "_move_down");
 			return false;
 		};
 
@@ -95,8 +96,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("MOVE: RIGHT");
-			ws.send("move_right");
+			printToOutput("(" + joystickId.value + ") MOVE: RIGHT");
+			ws.send(joystickId.value + "_move_right");
 			return false;
 		};
 
@@ -104,8 +105,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("ACTION: 1");
-			ws.send("action_1");
+			printToOutput("(" + joystickId.value + ") ACTION: 1");
+			ws.send(joystickId.value + "_action_1");
 			return false;
 		};
 
@@ -113,8 +114,8 @@
 			if (!ws) {
 				return false;
 			}
-			printToOutput("ACTION: 2");
-			ws.send("action_2");
+			printToOutput("(" + joystickId.value + ") ACTION: 2");
+			ws.send(joystickId.value + "_action_2");
 			return false;
 		};
 
