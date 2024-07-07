@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .control-container {
+            display: flex;
+            gap: 20px;
+        }
+        .dpad-container {
+            display: grid;
+            grid-template-columns: 100px 100px 100px;
+            grid-template-rows: 100px 100px 100px;
+            gap: 10px;
+        }
+        .action-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .dpad-button, .action-button {
+            width: 100px;
+            height: 100px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .dpad-button.up {
+            grid-column: 2;
+            grid-row: 1;
+        }
+        .dpad-button.down {
+            grid-column: 2;
+            grid-row: 3;
+        }
+        .dpad-button.left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+        .dpad-button.right {
+            grid-column: 3;
+            grid-row: 2;
+        }
+    </style>
+	<script>
+
+	window.addEventListener("load", function(evt) {
+
+		var output = document.getElementById("output");
+		var input = document.getElementById("input");
+		var ws;
+
+		
+		var print = function(message) {
+			var d = document.createElement("div");
+			d.textContent = message;
+			output.appendChild(d);
+			output.scroll(0, output.scrollHeight);
+		};
+
+		function sendDirection(direction) {
+			print('DIRECTION: ' + direction);
+		}
+
+
+		document.getElementById("open").onclick = function(evt) {
+			if (ws) {
+				return false;
+			}
+			ws = new WebSocket("{{.}}");
+			ws.onopen = function(evt) {
+				print("OPEN");
+			}
+			ws.onclose = function(evt) {
+				print("CLOSE");
+				ws = null;
+			}
+			ws.onmessage = function(evt) {
+				print("RESPONSE: " + evt.data);
+			}
+			ws.onerror = function(evt) {
+				print("ERROR: " + evt.data);
+			}
+			return false;
+		};
+
+		document.getElementById("send").onclick = function(evt) {
+			if (!ws) {
+				return false;
+			}
+			print("SEND: " + input.value);
+			ws.send(input.value);
+			return false;
+		};
+
+		document.getElementById("close").onclick = function(evt) {
+			if (!ws) {
+				return false;
+			}
+			ws.close();
+			return false;
+		};
+
+	});
+	</script>
+	</head>
+	<body>
+<table>
+<tr><td valign="top" width="50%">
+<p>Click "Open" to create a connection to the server, 
+"Send" to send a message to the server and "Close" to close the connection. 
+You can change the message and send multiple times.
+<p>
+<form>
+<button id="open">Open</button>
+<button id="close">Close</button>
+<p><input id="input" type="text" value="Hello world!">
+<button id="send">Send</button>
+</form>
+
+<div class="control-container">
+    <div class="dpad-container">
+        <button class="dpad-button up" onclick="sendDirection('Up')">Up</button>
+        <button class="dpad-button left" onclick="sendDirection('Left')">Left</button>
+        <button class="dpad-button down" onclick="sendDirection('Down')">Down</button>
+        <button class="dpad-button right" onclick="sendDirection('Right')">Right</button>
+    </div>
+    <div class="action-container">
+        <button class="action-button" onclick="sendAction('Action 1')">Action 1</button>
+        <button class="action-button" onclick="sendAction('Action 2')">Action 2</button>
+    </div>
+</div>
+
+</td><td valign="top" width="50%">
+<div id="output" style="max-height: 70vh;overflow-y: scroll;"></div>
+</td></tr></table>
+</body>
+</html>
