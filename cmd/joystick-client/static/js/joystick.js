@@ -141,25 +141,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event listener for mousedown event
     button.addEventListener('mousedown', function () {
-      sendCommand(actionMessage, commandSuffix + "-pressed");
+      sendCommand(actionMessage, commandSuffix + "-1");
       // Here you can also send a message to a WebSocket or perform other actions
       console.log('Button' + actionMessage + 'Pressed');
     });
 
     // Event listener for mouseup event
     button.addEventListener('mouseup', function () {
-      sendCommand(actionMessage, commandSuffix + "-released");
+      sendCommand(actionMessage, commandSuffix + "-0");
       // Here you can also send a different message to a WebSocket or perform other actions
       console.log('Button' + actionMessage + 'Released');
     });
   }
 
   // Add event listeners to the buttons
-  handleButtonEvent('d-up', "MOVE: UP", "_move_up");
-  handleButtonEvent('d-left', "MOVE: LEFT", "_move_left");
-  handleButtonEvent('d-down', "MOVE: DOWN", "_move_down");
-  handleButtonEvent('d-right', "MOVE: RIGHT", "_move_right");
-  handleButtonEvent('action-1', "ACTION: 1", "_action_1");
-  handleButtonEvent('action-2', "ACTION: 2", "_action_2");
+  handleButtonEvent('d-up', "MOVE: UP", "-move_up");
+  handleButtonEvent('d-left', "MOVE: LEFT", "-move_left");
+  handleButtonEvent('d-down', "MOVE: DOWN", "-move_down");
+  handleButtonEvent('d-right', "MOVE: RIGHT", "-move_right");
+  handleButtonEvent('action-1', "ACTION: 1", "-jump");
+  handleButtonEvent('action-2', "ACTION: 2", "-talk");
 });
 
