@@ -2,9 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
-// +build ignore
-
 package main
 
 import (
@@ -123,4 +120,4 @@ func main() {
 
 }
 
-var homeTemplate = template.Must(template.ParseFiles("./app/client-template.html"))
+var homeTemplate = template.Must(template.ParseFiles("./cmd/joystick-client/client-template.html"))
