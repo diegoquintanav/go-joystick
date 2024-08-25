@@ -87,31 +87,20 @@ document.getElementById("close").onclick = function () {
   }
 };
 
-document.getElementById("d-up").onclick = function () {
-  sendCommand("MOVE: UP", "_move_up");
-};
+// Function to set user name in the input field
+function setUser(username) {
+  document.getElementById('joystick-id').value = username;
+  document.getElementById('dropdown-menu').classList.add('hidden');  // Hide the dropdown after selection
+}
 
-document.getElementById("d-left").onclick = function () {
-  sendCommand("MOVE: LEFT", "_move_left");
-};
+// Toggle the dropdown visibility
+document.getElementById('dropdown-button').addEventListener('click', function () {
+  let dropdownMenu = document.getElementById('dropdown-menu');
+  dropdownMenu.classList.toggle('hidden');
+});
 
-document.getElementById("d-down").onclick = function () {
-  sendCommand("MOVE: DOWN", "_move_down");
-};
+document.addEventListener('DOMContentLoaded', function () {
 
-document.getElementById("d-right").onclick = function () {
-  sendCommand("MOVE: RIGHT", "_move_right");
-};
-
-document.getElementById("action-1").onclick = function () {
-  sendCommand("ACTION: 1", "_action_1");
-};
-
-document.getElementById("action-2").onclick = function () {
-  sendCommand("ACTION: 2", "_action_2");
-};
-
-document.addEventListener('DOMContentLoaded', function() {
   const users = [
     { name: 'User1', icon: '/static/img/user1.png' },
     { name: 'User2', icon: '/static/img/user2.png' },
@@ -120,39 +109,57 @@ document.addEventListener('DOMContentLoaded', function() {
     { name: 'User5', icon: '/static/img/user5.png' },
     { name: 'User6', icon: '/static/img/user6.png' },
     { name: 'User7', icon: '/static/img/user7.png' }
-];
+  ];
 
   const userListContainer = document.getElementById('user-list');
 
   users.forEach(user => {
-      const button = document.createElement('button');
-      button.className = 'flex flex-col items-center justify-center text-sm text-gray-700 hover:bg-gray-100 p-2 rounded';
-      button.onclick = function() {
-          setUser(user.name);
-      };
+    const button = document.createElement('button');
+    button.className = 'flex flex-col items-center justify-center text-sm text-gray-700 hover:bg-gray-100 p-2 rounded';
+    button.onclick = function () {
+      setUser(user.name);
+    };
 
-      const img = document.createElement('img');
-      img.src = user.icon;
-      img.alt = user.name;
-      img.className = 'w-6 h-6 mb-1';
+    const img = document.createElement('img');
+    img.src = user.icon;
+    img.alt = user.name;
+    img.className = 'w-6 h-6 mb-1';
 
-      const span = document.createElement('span');
-      span.textContent = user.name;
+    const span = document.createElement('span');
+    span.textContent = user.name;
 
-      button.appendChild(img);
-      button.appendChild(span);
-      userListContainer.appendChild(button);
+    button.appendChild(img);
+    button.appendChild(span);
+    userListContainer.appendChild(button);
   });
+
+  
+  // Add event listeners to the buttons
+  // Function to handle button press and release events
+  function handleButtonEvent(buttonId, actionMessage, commandSuffix) {
+    const button = document.getElementById(buttonId);
+
+    // Event listener for mousedown event
+    button.addEventListener('mousedown', function () {
+      sendCommand(actionMessage, commandSuffix + "-pressed");
+      // Here you can also send a message to a WebSocket or perform other actions
+      console.log('Button' + actionMessage + 'Pressed');
+    });
+
+    // Event listener for mouseup event
+    button.addEventListener('mouseup', function () {
+      sendCommand(actionMessage, commandSuffix + "-released");
+      // Here you can also send a different message to a WebSocket or perform other actions
+      console.log('Button' + actionMessage + 'Released');
+    });
+  }
+
+  // Add event listeners to the buttons
+  handleButtonEvent('d-up', "MOVE: UP", "_move_up");
+  handleButtonEvent('d-left', "MOVE: LEFT", "_move_left");
+  handleButtonEvent('d-down', "MOVE: DOWN", "_move_down");
+  handleButtonEvent('d-right', "MOVE: RIGHT", "_move_right");
+  handleButtonEvent('action-1', "ACTION: 1", "_action_1");
+  handleButtonEvent('action-2', "ACTION: 2", "_action_2");
 });
 
-// Function to set user name in the input field
-function setUser(username) {
-  document.getElementById('joystick-id').value = username;
-  document.getElementById('dropdown-menu').classList.add('hidden');  // Hide the dropdown after selection
-}
-
-// Toggle the dropdown visibility
-document.getElementById('dropdown-button').addEventListener('click', function() {
-  let dropdownMenu = document.getElementById('dropdown-menu');
-  dropdownMenu.classList.toggle('hidden');
-});
