@@ -2,9 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build ignore
-// +build ignore
-
 package main
 
 import (
@@ -65,7 +62,11 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 // home is a simple HTTP handler function which writes a message to the client
 func home(w http.ResponseWriter, r *http.Request) {
-	homeTemplate.Execute(w, "ws://"+r.Host+"/echo")
+	homeTemplate.Execute(w, struct {
+		ServerAddr string
+	}{
+		ServerAddr: "ws://" + r.Host + "/echo",
+	})
 }
 
 func main() {
@@ -78,4 +79,4 @@ func main() {
 	log.Fatal(http.ListenAndServe(*serverAddr, nil))
 }
 
-var homeTemplate = template.Must(template.ParseFiles("./app/server-template.html"))
+var homeTemplate = template.Must(template.ParseFiles("./cmd/joystick-server/server-template.html"))
