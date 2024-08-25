@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D-Pad Buttons with Actions</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-100">
+
+	<div class="flex space-x-8">
+		<div class="flex flex-col space-y-2">
+			<input id="joystick-id" type="text" value="{{.ClientName}}" placeholder="Enter Joystick ID" class="p-2 rounded border border-gray-300">
+			<button id="open" class="w-24 h-24 bg-green-500 text-white text-xl flex items-center justify-center rounded shadow-lg">Connect</button>
+			<button id="close" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Disconnect</button>
+		</div>
+		<div class="grid grid-cols-3 grid-rows-3 gap-2">
+			<button id="d-up" class="col-start-2 row-start-1 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Up</button>
+			<button id="d-left" class="col-start-1 row-start-2 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Left</button>
+			<button id="d-down" class="col-start-2 row-start-3 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Down</button>
+			<button id="d-right" class="col-start-3 row-start-2 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Right</button>
+		</div>
+		<div class="flex flex-col space-y-2">
+			<button id="action-1" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 1</button>
+			<button id="action-2" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 2</button>
+		</div>
+		<div id="output" class="w-96 h-24 bg-white border border-gray-300 p-4 rounded shadow-lg overflow-auto">
+			<!-- Debugging output will appear here -->
+		</div>
+	</div>
+
+<script>
+    // Make sure the server address is available to the client
+    const serverAddr = "{{.ServerAddr}}";
+	console.log(serverAddr);
+</script>
+<script src="/static/js/joystick.js"></script>
+
+</body>
+</html>

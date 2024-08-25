@@ -19,7 +19,7 @@ import (
 
 var serverAddr = flag.String("serverAddr", "localhost:8080", "http service address")
 var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address")
-var clientName = flag.String("clientName", "SomeClient", "Name of the user client")
+var clientName = flag.String("clientName", "", "Name of the user client")
 
 // home is a simple HTTP handler function which writes a message to the client
 func home(w http.ResponseWriter, r *http.Request) {
@@ -120,12 +120,12 @@ func main() {
 
 	log.SetFlags(0)
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./cmd/joystick-client/static"))))
 	http.HandleFunc("/", home)
-
 	log.Printf("connecting to %s", *clientAddr)
 	log.Printf("connecting as %s", *clientName)
 	log.Fatal(http.ListenAndServe(*clientAddr, nil))
 
 }
 
-var homeTemplate = template.Must(template.ParseFiles("./cmd/joystick-client/client-template.html"))
+var homeTemplate = template.Must(template.ParseFiles("./cmd/joystick-client/static/templates/client-template.html"))
