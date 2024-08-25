@@ -122,8 +122,9 @@ func main() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./cmd/joystick-client/static"))))
 	http.HandleFunc("/", home)
-	log.Printf("connecting to %s", *clientAddr)
-	log.Printf("connecting as %s", *clientName)
+	log.Printf("Rendering client at %s", *clientAddr)
+	log.Printf("Connecting to server at %s", *serverAddr)
+	log.Printf("Connecting with alias %s", *clientName)
 	log.Fatal(http.ListenAndServe(*clientAddr, nil))
 
 }
