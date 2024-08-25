@@ -18,15 +18,21 @@ import (
 )
 
 var serverAddr = flag.String("serverAddr", "localhost:8080", "http service address")
-
 var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address")
+var clientName = flag.String("clientName", "SomeClient", "Name of the user client")
 
 // home is a simple HTTP handler function which writes a message to the client
 func home(w http.ResponseWriter, r *http.Request) {
 	// Execute the homeTemplate with the WebSocket server address
 	// Create a URL object to connect to the WebSocket server
 
-	homeTemplate.Execute(w, "ws://"+*serverAddr+"/echo")
+	homeTemplate.Execute(w, struct {
+		ServerAddr string
+		ClientName string
+	}{
+		ServerAddr: "ws://" + *serverAddr + "/echo",
+		ClientName: *clientName,
+	})
 }
 
 func sendTickMessages() {
@@ -111,11 +117,13 @@ func sendTickMessages() {
 
 func main() {
 	flag.Parse()
+
 	log.SetFlags(0)
 
 	http.HandleFunc("/", home)
 
 	log.Printf("connecting to %s", *clientAddr)
+	log.Printf("connecting as %s", *clientName)
 	log.Fatal(http.ListenAndServe(*clientAddr, nil))
 
 }

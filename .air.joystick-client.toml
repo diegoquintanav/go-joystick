@@ -4,8 +4,8 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./tmp/client"
-  cmd = "go build -o ./tmp/client ./cmd/joystick-client"
+  bin = "./tmp/joystick-client/client -clientName=devClient"
+  cmd = "go build -o ./tmp/joystick-client/client ./cmd/joystick-client"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]
   exclude_file = []
