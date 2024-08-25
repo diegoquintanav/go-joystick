@@ -20,8 +20,8 @@ window.addEventListener("load", function(evt) {
         if (ws) {
             return false;
         }
-		console.print("{{.}}");
-        ws = new WebSocket("{{.}}");
+		console.log("{{.ServerAddr}}");
+        ws = new WebSocket("{{.ServerAddr}}");
         ws.onopen = function(evt) {
             print("OPEN");
         }

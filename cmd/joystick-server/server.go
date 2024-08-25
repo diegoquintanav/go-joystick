@@ -62,7 +62,11 @@ func echo(w http.ResponseWriter, r *http.Request) {
 
 // home is a simple HTTP handler function which writes a message to the client
 func home(w http.ResponseWriter, r *http.Request) {
-	homeTemplate.Execute(w, "ws://"+r.Host+"/echo")
+	homeTemplate.Execute(w, struct {
+		ServerAddr string
+	}{
+		ServerAddr: "ws://" + r.Host + "/echo",
+	})
 }
 
 func main() {
