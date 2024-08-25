@@ -30,6 +30,12 @@ $ air -c .air.joystick-client.toml # runs the client in port 8091
 $ air -c .air.joystick-server.toml # runs the server in port 8090
 ```
 
+To connect to the sompics server, run the following command:
+
+```bash
+$ air -c .air.joystick-client-sompics.toml # runs the server in port 8091, and connects to sompics in port 9080
+```
+
 ## License
 
 MIT
