@@ -17,7 +17,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var serverAddr = flag.String("serverAddr", "localhost:8080", "http service address")
+var serverAddr = flag.String("serverAddr", "localhost:8080", "websocket or http service address")
 var serverEndpoint = flag.String("serverEndpoint", "/echo", "http service endpoint")
 var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address")
 var clientName = flag.String("clientName", "", "Name of the user client")
@@ -31,7 +31,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		ServerAddr string
 		ClientName string
 	}{
-		ServerAddr: "ws://" + *serverAddr + *serverEndpoint,
+		ServerAddr: *serverAddr + *serverEndpoint,
 		ClientName: *clientName,
 	})
 }

@@ -18,7 +18,20 @@ connecting to localhost:8081
 
 Go to the client in the browser and move the joystick around. The server will receive the commands and print them to the console.
 
-## Developing with [air]((https://github.com/air-verse/air?tab=readme-ov-file))
+The client has the following flags:
+
+* `serverAddr`: Websocket or http service address of the server receiving websocket messages
+* `serverEndpoint`: Endpoint of the server receiving websocket messages. By default it is `/echo`, the endpoint of the echo server in server.go
+* `clientAddr`: Address of the http client
+* `clientName`: Name of the user client used to send messages to the server
+
+For example, to connect to the echo server in the server.go file, run the following command:
+
+```bash
+$ go run cmd/joystick-client/client.go  -serverAddr localhost:8080 -serverEndpoint /echo -clientAddr localhost:8081 -clientName ""
+```
+
+## Developing with [air](https://github.com/air-verse/air?tab=readme-ov-file)
 
 In separate terminals run the following commands:
 
