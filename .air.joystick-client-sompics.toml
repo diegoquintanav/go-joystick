@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
   args_bin = []
-  bin = "./tmp/joystick-client/client -clientName=marta -serverAddr=localhost:9080 -serverEndpoint=/"
+  bin = "./tmp/joystick-client/client -clientName=marta -serverAddr=ws://localhost:9080 -serverEndpoint='/'"
   cmd = "go build -o ./tmp/joystick-client/client ./cmd/joystick-client"
   delay = 1000
   exclude_dir = ["assets", "tmp", "vendor", "testdata"]

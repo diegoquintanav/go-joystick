@@ -2,10 +2,14 @@ let ws;
 
 function connectWebSocket() {
   const joystickId = document.getElementById("joystick-id").value;
+  const serverAddr = document.getElementById("server-address").value;
+  
   console.log("joystickId: ", joystickId);
+  console.log("serverAddr: ", serverAddr);
 
-  if (!joystickId) {
-    alert("Please enter a Joystick ID");
+  // If no joystickId or serverAddr is provided, show an alert
+  if (!joystickId || !serverAddr) {
+    alert("Please enter a valid Joystick ID or Server Address");
     return;
   }
 
@@ -14,6 +18,7 @@ function connectWebSocket() {
   ws.onopen = function () {
     enableControls();
     printToOutput(`(${joystickId}) OPEN`);
+    printToOutput(`(${joystickId}) CONNECTED: ${serverAddr}`);
   };
 
   ws.onclose = function () {
