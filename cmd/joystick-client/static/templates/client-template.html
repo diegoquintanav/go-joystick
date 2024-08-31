@@ -10,6 +10,7 @@
 
 	<div class="flex space-x-8">
 		<div class="flex flex-col space-y-2 relative">
+			<input id="server-address" type="text" value="{{.ServerAddr}}" placeholder="Enter Server Address" class="p-2 rounded border border-gray-300">
 			<input id="joystick-id" type="text" value="{{.ClientName}}" placeholder="Enter Joystick ID" class="p-2 rounded border border-gray-300">
 			
 			<div class="relative">
@@ -40,16 +41,13 @@
 			<button id="action-1" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 1</button>
 			<button id="action-2" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 2</button>
 		</div>
+		<div class="flex flex-col space-y-2">
 		<div id="output" class="w-96 h-24 bg-white border border-gray-300 p-4 rounded shadow-lg overflow-auto">
 			<!-- Debugging output will appear here -->
 		</div>
 	</div>
+	</div>
 
-<script>
-    // Make sure the server address is available to the client
-    const serverAddr = "{{.ServerAddr}}";
-	console.log(serverAddr);
-</script>
 <script src="/static/js/joystick.js"></script>
 
 </body>

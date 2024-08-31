@@ -17,7 +17,8 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var serverAddr = flag.String("serverAddr", "localhost:8080", "http service address")
+var serverAddr = flag.String("serverAddr", "ws://localhost:8080", "websocket or http service address")
+var serverEndpoint = flag.String("serverEndpoint", "/echo", "http service endpoint")
 var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address")
 var clientName = flag.String("clientName", "", "Name of the user client")
 
@@ -30,7 +31,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 		ServerAddr string
 		ClientName string
 	}{
-		ServerAddr: "ws://" + *serverAddr + "/echo",
+		ServerAddr: *serverAddr + *serverEndpoint,
 		ClientName: *clientName,
 	})
 }
@@ -43,7 +44,7 @@ func sendTickMessages() {
 	signal.Notify(interrupt, os.Interrupt)
 
 	// Create a URL object to connect to the WebSocket server
-	u := url.URL{Scheme: "ws", Host: *serverAddr, Path: "/echo"}
+	u := url.URL{Scheme: "ws", Host: *serverAddr, Path: *serverEndpoint}
 
 	// Log the URL to the console
 	log.Printf("connecting to %s", u.String())
@@ -122,11 +123,11 @@ func main() {
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./cmd/joystick-client/static"))))
 	http.HandleFunc("/", home)
+
 	log.Printf("Rendering client at %s", *clientAddr)
 	log.Printf("Connecting to server at %s", *serverAddr)
 	log.Printf("Connecting with alias %s", *clientName)
 	log.Fatal(http.ListenAndServe(*clientAddr, nil))
-
 }
 
 var homeTemplate = template.Must(template.ParseFiles("./cmd/joystick-client/static/templates/client-template.html"))
