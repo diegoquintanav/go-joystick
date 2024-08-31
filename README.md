@@ -2,6 +2,8 @@
 
 A joystick service that sends commands to a websocket, written in go.
 
+![joystick-preview](assets/image.png)
+
 ## Usage
 
 ```bash
