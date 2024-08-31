@@ -32,7 +32,11 @@ function connectWebSocket() {
   };
 
   ws.onerror = function (evt) {
-    printToOutput(`(${joystickId}) ERROR: ${evt.data}`);
+    if (evt.target.readyState === WebSocket.CLOSED) {
+      printToOutput(`(${joystickId}) ERROR: Can't connect on ${serverAddr}.`);
+    } else {
+      printToOutput(`(${joystickId}) ERROR: ${evt.data}`);
+    }
   };
 }
 

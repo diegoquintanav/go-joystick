@@ -5,53 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D-Pad Buttons with Actions</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @media (orientation: landscape) and (max-width: 768px) {
+            .joystick-layout {
+                flex-direction: row;
+                align-items: center;
+            }
+            .move-buttons {
+                order: 2;
+            }
+            .connect-buttons {
+                order: 1;
+            }
+            .action-buttons {
+                order: 3;
+            }
+        }
+    </style>
 </head>
-<body class="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+<body class="flex items-center justify-center h-screen bg-gray-100">
 
-	<div class="flex flex-col lg:flex-row lg:space-x-8 space-y-4 lg:space-y-0">
-		<!-- Left Column with Inputs and Buttons -->
-		<div class="flex flex-col space-y-2 relative w-full lg:w-auto">
-			<input id="server-address" type="text" value="{{.ServerAddr}}" placeholder="Enter Server Address" class="p-2 rounded border border-gray-300 w-full">
-			<input id="joystick-id" type="text" value="{{.ClientName}}" placeholder="Enter Joystick ID" class="p-2 rounded border border-gray-300 w-full">
-			
-			<div class="relative">
-				<button id="dropdown-button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-					Select User
-					<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-						<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-					</svg>
-				</button>
-		
-				<div id="dropdown-menu" class="hidden absolute z-10 left-0 mt-0 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-					<div id="user-list" class="grid grid-cols-5 gap-2 p-2">
-						<!-- JavaScript will populate this -->
-					</div>
+    <div class="flex flex-col md:flex-row space-x-8 joystick-layout">
+        <!-- Connect Buttons -->
+        <div class="flex flex-col space-y-2 relative connect-buttons">
+            <input id="server-address" type="text" value="{{.ServerAddr}}" placeholder="Enter Server Address" class="p-2 rounded border border-gray-300">
+            <input id="joystick-id" type="text" value="{{.ClientName}}" placeholder="Enter Joystick ID" class="p-2 rounded border border-gray-300">
+            
+            <div class="relative">
+                <button id="dropdown-button" class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                    Select User
+                    <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+        
+                <div id="dropdown-menu" class="hidden absolute z-10 left-0 mt-0 w-full rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+                    <div id="user-list" class="grid grid-cols-5 gap-2 p-2">
+                        <!-- JavaScript will populate this -->
+                    </div>
+                </div>
+            </div>
+
+			<div class="flex flex-row space-x-2">
+				<button id="open" class="w-32 h-12 bg-green-500 text-white text-xl flex items-center justify-center rounded shadow-lg">Connect</button>
+				<button id="close" class="w-32 h-12 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Disconnect</button>
+			</div>
+
+
+			<!-- Output -->
+			<div class="flex flex-col space-y-2">
+				<div id="output" class="w-96 h-24 bg-white border border-gray-300 p-4 rounded shadow-lg overflow-auto">
+					<!-- Debugging output will appear here -->
 				</div>
 			</div>
-		
-			<button id="open" class="w-full lg:w-24 h-24 bg-green-500 text-white text-xl flex items-center justify-center rounded shadow-lg">Connect</button>
-			<button id="close" class="w-full lg:w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Disconnect</button>
-		</div>
+        </div>
 
-		<!-- D-Pad Buttons -->
-		<div class="grid grid-cols-3 grid-rows-3 gap-2 w-full lg:w-auto">
-			<button id="d-up" class="col-start-2 row-start-1 w-full h-24 lg:w-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Up</button>
-			<button id="d-left" class="col-start-1 row-start-2 w-full h-24 lg:w-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Left</button>
-			<button id="d-down" class="col-start-2 row-start-3 w-full h-24 lg:w-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Down</button>
-			<button id="d-right" class="col-start-3 row-start-2 w-full h-24 lg:w-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Right</button>
-		</div>
+        <!-- Move Buttons -->
+		<div class="grid grid-cols-3 grid-rows-3 gap-2 move-buttons">
+				<button id="d-up" class="col-start-2 row-start-1 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#8593;</button>
+				<button id="d-left" class="col-start-1 row-start-2 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#8592;</button>
+				<button id="d-down" class="col-start-2 row-start-3 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#8595;</button>
+			<button id="d-right" class="col-start-3 row-start-2 w-24 h-24 bg-blue-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#8594;</button>
+        </div>
 
-		<!-- Action Buttons -->
-		<div class="flex flex-col space-y-2 w-full lg:w-auto">
-			<button id="action-1" class="w-full lg:w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 1</button>
-			<button id="action-2" class="w-full lg:w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>Action 2</button>
-		</div>
-
-		<!-- Output Display -->
-		<div id=output class="w-full lg:w-96 h-24 bg-white border border-gray-300 p-4 rounded shadow-lg overflow-auto">
-			<!-- Debugging output will appear here -->
-		</div>
-	</div>
+        <!-- Action Buttons -->
+        <div class="flex flex-col space-y-2 action-buttons">
+			<button id="action-1" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#9673;</button>
+            <button id="action-2" class="w-24 h-24 bg-green-300 text-white text-xl flex items-center justify-center rounded shadow-lg cursor-not-allowed opacity-50" disabled>&#9635;</button>
+        </div>
+    </div>
 
 <script src="/static/js/joystick.js"></script>
 
