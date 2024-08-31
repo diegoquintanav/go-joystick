@@ -7,7 +7,6 @@ function connectWebSocket() {
   console.log("joystickId: ", joystickId);
   console.log("serverAddr: ", serverAddr);
 
-  // If no joystickId or serverAddr is provided, show an alert
   if (!joystickId || !serverAddr) {
     alert("Please enter a valid Joystick ID or Server Address");
     return;
@@ -54,8 +53,6 @@ function enableControls() {
   });
 }
 
-
-
 function disableControls() {
   document.getElementById("close").disabled = true;
   document.getElementById("close").classList.replace("bg-green-500", "bg-green-300");
@@ -80,7 +77,7 @@ function printToOutput(message) {
 
 function sendCommand(actionMessage, commandSuffix) {
   if (ws) {
-    const joystickId = document.getElementById("joystick-id").value
+    const joystickId = document.getElementById("joystick-id").value;
     const msg = `${joystickId}-${commandSuffix}`;
 
     printToOutput(`${actionMessage} -> ${msg}`);
@@ -99,20 +96,23 @@ document.getElementById("close").onclick = function () {
   }
 };
 
-// Function to set user name in the input field
+document.querySelectorAll('button').forEach(function(button) {
+  button.addEventListener('contextmenu', function(e) {
+      e.preventDefault();
+  }, false);
+});
+
 function setUser(username) {
   document.getElementById('joystick-id').value = username;
-  document.getElementById('dropdown-menu').classList.add('hidden');  // Hide the dropdown after selection
+  document.getElementById('dropdown-menu').classList.add('hidden');
 }
 
-// Toggle the dropdown visibility
 document.getElementById('dropdown-button').addEventListener('click', function () {
   let dropdownMenu = document.getElementById('dropdown-menu');
   dropdownMenu.classList.toggle('hidden');
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-
   const users = [
     { name: 'User1', icon: '/static/img/user1.png' },
     { name: 'User2', icon: '/static/img/user2.png' },
@@ -145,22 +145,42 @@ document.addEventListener('DOMContentLoaded', function () {
     userListContainer.appendChild(button);
   });
 
-  
-  // Add event listeners to the buttons
   // Function to handle button press and release events
   function handleButtonEvent(buttonId, actionMessage, commandSuffix) {
     const button = document.getElementById(buttonId);
+    let intervalId;
 
-    // Event listener for mousedown event
-    button.addEventListener('mousedown', function () {
-      sendCommand(actionMessage, commandSuffix + "-1");
-    });
+    // Start sending command when button is pressed
+    const startSendingCommand = () => {
+      intervalId = setInterval(() => {
+        sendCommand(actionMessage, commandSuffix + "-1");
+      }, 100);  // Adjust the interval as needed
+    };
 
-    // Event listener for mouseup event
-    button.addEventListener('mouseup', function () {
+    // Stop sending command when button is released
+    const stopSendingCommand = () => {
+      clearInterval(intervalId);
       sendCommand(actionMessage, commandSuffix + "-0");
-      // Here you can also send a different message to a WebSocket or perform other actions
+    };
+
+    // Attach event listeners
+    button.addEventListener('mousedown', startSendingCommand);
+    button.addEventListener('mouseup', stopSendingCommand);
+
+    // Support for touch devices
+    button.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      startSendingCommand();
     });
+
+    button.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      stopSendingCommand();
+    });
+
+    // Ensure the command stops if the touch/mouse moves out of the button
+    button.addEventListener('mouseleave', stopSendingCommand);
+    button.addEventListener('touchcancel', stopSendingCommand);
   }
 
   // Add event listeners to the buttons
@@ -171,4 +191,3 @@ document.addEventListener('DOMContentLoaded', function () {
   handleButtonEvent('action-1', "ACTION: 1", "jump");
   handleButtonEvent('action-2', "ACTION: 2", "talk");
 });
-
