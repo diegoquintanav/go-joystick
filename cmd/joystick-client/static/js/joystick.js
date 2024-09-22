@@ -234,17 +234,19 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Track pressed keys to avoid repeated messages
   const keysPressed = {};
+  
 
   // Event listener for keydown event
   document.addEventListener('keydown', function (event) {
 
+    let intervalSensitivity = 20;
     const keyAction = keyMappings[event.code];
 
     if (keyAction && !keysPressed[event.code]) {
       sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
       keysPressed[event.code] = setInterval(function () {
         sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
-      }, 100);
+      }, intervalSensitivity);
     }
   });
 
