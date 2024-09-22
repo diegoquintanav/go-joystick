@@ -71,3 +71,7 @@ $ air -c .air.joystick-client-sompics.toml # runs the server in port 8091, and c
 ## License
 
 MIT
+
+## Credits
+
+- Robots lovingly delivered by [Robohash](https://robohash.org/)

@@ -3,7 +3,7 @@ let ws;
 function connectWebSocket() {
   const joystickId = document.getElementById("joystick-id").value;
   const serverAddr = document.getElementById("server-address").value;
-  
+
   console.log("joystickId: ", joystickId);
   console.log("serverAddr: ", serverAddr);
 
@@ -96,9 +96,9 @@ document.getElementById("close").onclick = function () {
   }
 };
 
-document.querySelectorAll('button').forEach(function(button) {
-  button.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
+document.querySelectorAll('button').forEach(function (button) {
+  button.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
   }, false);
 });
 
@@ -114,13 +114,29 @@ document.getElementById('dropdown-button').addEventListener('click', function ()
 
 document.addEventListener('DOMContentLoaded', function () {
   const users = [
-    { name: 'User1', icon: '/static/img/user1.png' },
-    { name: 'User2', icon: '/static/img/user2.png' },
-    { name: 'User3', icon: '/static/img/user3.png' },
-    { name: 'User4', icon: '/static/img/user4.png' },
-    { name: 'User5', icon: '/static/img/user5.png' },
-    { name: 'User6', icon: '/static/img/user6.png' },
-    { name: 'User7', icon: '/static/img/user7.png' }
+    { name: 'user-1', icon: '_auto' },
+    { name: 'marta', icon: '_auto' },
+    { name: 'pol', icon: '_auto' },
+    { name: 'joana', icon: '_auto' },
+    { name: 'juanpe', icon: '_auto' },
+    { name: 'david', icon: '_auto' },
+    { name: 'marite', icon: '_auto' },
+    { name: 'isra', icon: '_auto' },
+    { name: 'daniestanyol', icon: '_auto' },
+    { name: 'xavidolz', icon: '_auto' },
+    { name: 'benjami', icon: '_auto' },
+    { name: 'nuse', icon: '_auto' },
+    { name: 'fran', icon: '_auto' },
+    { name: 'jordi', icon: '_auto' },
+    { name: 'joan', icon: '_auto' },
+    { name: 'raul', icon: '_auto' },
+    { name: 'lucia', icon: '_auto' },
+    { name: 'pere', icon: '_auto' },
+    { name: 'bea', icon: '_auto' },
+    { name: 'angel', icon: '_auto' },
+    { name: 'oriol', icon: '_auto' },
+    { name: 'xavierbonet', icon: '_auto' },
+    { name: 'daniquilez', icon: '_auto' },
   ];
 
   const userListContainer = document.getElementById('user-list');
@@ -133,7 +149,12 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
     const img = document.createElement('img');
-    img.src = user.icon;
+
+    if (user.icon === '_auto') {
+      img.src = `https://robohash.org/${user.name}?set=set5`;
+    } else {
+      img.src = user.icon;
+    }
     img.alt = user.name;
     img.className = 'w-6 h-6 mb-1';
 
