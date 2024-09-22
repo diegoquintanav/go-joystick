@@ -170,12 +170,13 @@ document.addEventListener('DOMContentLoaded', function () {
   function handleButtonEvent(buttonId, actionMessage, commandSuffix) {
     const button = document.getElementById(buttonId);
     let intervalId;
+    let intervalSensitivity = 20;
 
     // Start sending command when button is pressed
     const startSendingCommand = () => {
       intervalId = setInterval(() => {
         sendCommand(actionMessage, commandSuffix + "-1");
-      }, 100);  // Adjust the interval as needed
+      }, intervalSensitivity);  // Adjust the interval as needed
     };
 
     // Stop sending command when button is released
