@@ -211,4 +211,51 @@ document.addEventListener('DOMContentLoaded', function () {
   handleButtonEvent('d-right', "MOVE: RIGHT", "move_right");
   handleButtonEvent('action-1', "ACTION: 1", "jump");
   handleButtonEvent('action-2', "ACTION: 2", "talk");
+
+
+  // Key mappings for keyboard controls
+  const keyMappings = {
+    ArrowUp: { actionMessage: "MOVE: UP", commandSuffix: "move_up" },
+    ArrowLeft: { actionMessage: "MOVE: LEFT", commandSuffix: "move_left" },
+    ArrowDown: { actionMessage: "MOVE: DOWN", commandSuffix: "move_down" },
+    ArrowRight: { actionMessage: "MOVE: RIGHT", commandSuffix: "move_right" },
+    Space: { actionMessage: "ACTION: 1", commandSuffix: "jump" },
+    Enter: { actionMessage: "ACTION: 2", commandSuffix: "talk" },
+    // WASD mappings
+    KeyW: { actionMessage: "MOVE: UP", commandSuffix: "move_up" },
+    KeyA: { actionMessage: "MOVE: LEFT", commandSuffix: "move_left" },
+    KeyS: { actionMessage: "MOVE: DOWN", commandSuffix: "move_down" },
+    KeyD: { actionMessage: "MOVE: RIGHT", commandSuffix: "move_right" },
+    // Space and Enter mappings
+    KeyO: { actionMessage: "ACTION: 1", commandSuffix: "jump" },
+    KeyP: { actionMessage: "ACTION: 2", commandSuffix: "talk" },
+  };
+
+  // Track pressed keys to avoid repeated messages
+  const keysPressed = {};
+
+  // Event listener for keydown event
+  document.addEventListener('keydown', function (event) {
+
+    const keyAction = keyMappings[event.code];
+
+    if (keyAction && !keysPressed[event.code]) {
+      sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
+      keysPressed[event.code] = setInterval(function () {
+        sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
+      }, 100);
+    }
+  });
+
+  // Event listener for keyup event
+  document.addEventListener('keyup', function (event) {
+    const keyAction = keyMappings[event.code];
+    if (keyAction && keysPressed[event.code]) {
+      clearInterval(keysPressed[event.code]);
+      sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-0");
+      delete keysPressed[event.code];
+    }
+  });
+
+
 });
