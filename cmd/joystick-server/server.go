@@ -13,7 +13,7 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var serverAddr = flag.String("serverAddr", "localhost:8080", "http service address")
+var serverAddr = flag.String("serverAddr", "localhost:8080", "HTTP service address where the server will be listening from. Does not include the protocol (http://)")
 
 var upgrader = websocket.Upgrader{} // use default options
 

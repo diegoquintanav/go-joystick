@@ -17,10 +17,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-var serverAddr = flag.String("serverAddr", "ws://localhost:8080", "websocket or http service address")
-var serverEndpoint = flag.String("serverEndpoint", "/echo", "http service endpoint")
-var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address")
-var clientName = flag.String("clientName", "", "Name of the user client")
+var serverAddr = flag.String("serverAddr", "ws://localhost:8080", "websocket or http service address. Must include the protocol (ws:// or http://) and the port number")
+var serverEndpoint = flag.String("serverEndpoint", "/echo", "Endpoint at the server to connect to where messages will be sent")
+var clientAddr = flag.String("clientAddr", "localhost:8081", "http client address. Must include the port. Does not include the protocol (http://)")
+var clientName = flag.String("clientName", "", "Name of the user client. Used to identify the client to the server")
 
 // home is a simple HTTP handler function which writes a message to the client
 func home(w http.ResponseWriter, r *http.Request) {
