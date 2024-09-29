@@ -1,0 +1,16 @@
+version: '3'
+services:
+  joystick-client:
+    image: ghcr.com/diegoquintanav/joystick-client:latest
+    build:
+      context: .
+      dockerfile: docker/joystick-client/Dockerfile
+    ports:
+      - 8088:8081
+  joystick-server:
+    image: ghcr.com/diegoquintanav/joystick-server:latest
+    build:
+      context: .
+      dockerfile: docker/joystick-server/Dockerfile
+    ports:
+      - 8089:8080
