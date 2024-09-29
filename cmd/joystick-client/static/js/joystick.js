@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Start sending command when button is pressed
     const startSendingCommand = () => {
-        sendCommand(actionMessage, commandSuffix + "-1");
+      sendCommand(actionMessage, commandSuffix + "-1");
     };
 
     // Stop sending command when button is released
@@ -231,12 +231,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Track pressed keys to avoid repeated messages
   const keysPressed = {};
-  
+
+
+  // Helper function to check if the target element is an input field with class 'my-input'
+  function isTypingInInput(event) {
+    const activeElement = document.activeElement;
+    const isTypingAddress = activeElement && activeElement.classList.contains('server-address');
+    const isTypingJoystickId = activeElement && activeElement.classList.contains('joystick-id');
+    return isTypingAddress || isTypingJoystickId;
+  }
 
   // Event listener for keydown event
   document.addEventListener('keydown', function (event) {
 
-    let intervalSensitivity = 20;
+    // Check if the user is typing in an input field. If so, ignore the keydown event
+    if (isTypingInInput(event)) return;
+
     const keyAction = keyMappings[event.code];
 
     if (keyAction && !keysPressed[event.code]) {
@@ -249,6 +259,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Event listener for keyup event
   document.addEventListener('keyup', function (event) {
+    // Check if the user is typing in an input field. If so, ignore the keydown event
+    if (isTypingInInput(event)) return;
+
     const keyAction = keyMappings[event.code];
     if (keyAction && keysPressed[event.code]) {
       clearInterval(keysPressed[event.code]);
