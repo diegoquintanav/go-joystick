@@ -13,3 +13,6 @@ air.client.launch.sompics: ## Launch client adapted to sompics server
 
 air.server.launch.default: ## Launch server using air
 	@air -c .air.joystick-client-sompics.toml
+
+docker-compose.client.sompics.up: ## Launch client using docker-compose
+	@docker compose -f docker-compose-sompics.yml up
