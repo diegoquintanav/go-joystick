@@ -68,6 +68,17 @@ To connect to the sompics server, run the following command:
 $ air -c .air.joystick-client-sompics.toml # runs the server in port 8091, and connects to sompics in port 9080
 ```
 
+## Connect to Sompics server using docker compose
+
+Use `make` for convenience. Run the following command:
+
+
+```bash
+$ make docker-compose.client.sompics.up
+```
+
+By default this container maps the port 8081 to the port 8090 in the host machine. Read the Makefile for more details.
+
 ## License
 
 MIT
