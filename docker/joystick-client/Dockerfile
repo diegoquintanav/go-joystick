@@ -14,8 +14,17 @@ RUN go mod download
 # Builds your app with optional configuration
 RUN go build -o /app/build/joystick-client/client /app/cmd/joystick-client
 
+
+# Set environment variables
+ENV SERVER_PORT=8080
+ENV SERVER_HOST=ws://joystick-server
+ENV SERVER_ENDPOINT=/echo
+
+ENV CLIENT_HOST=0.0.0.0
+ENV CLIENT_NAME=dockerClient
+
 # Tells Docker which network port your container listens on
 EXPOSE 8081
 
 # Specifies the executable command that runs when the container starts
-CMD [ "/app/build/joystick-client/client","-clientName=dockerClient", "-serverAddr=ws://joystick-server:8080", "-clientAddr=0.0.0.0:8081" ]
+CMD [ "sh", "-c", "/app/build/joystick-client/client -clientName=${CLIENT_NAME} -serverAddr=${SERVER_HOST}:${SERVER_PORT} -clientAddr=${CLIENT_HOST}:8081 -serverEndpoint=${SERVER_ENDPOINT}" ]
