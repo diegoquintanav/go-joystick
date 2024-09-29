@@ -169,8 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Function to handle button press and release events
   function handleButtonEvent(buttonId, actionMessage, commandSuffix) {
     const button = document.getElementById(buttonId);
-    let intervalId;
-    let intervalSensitivity = 20;
 
     // Start sending command when button is pressed
     const startSendingCommand = () => {
@@ -198,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Ensure the command stops if the touch/mouse moves out of the button
-    button.addEventListener('mouseleave', stopSendingCommand);
+    // button.addEventListener('mouseleave', stopSendingCommand);
     button.addEventListener('touchcancel', stopSendingCommand);
   }
 
@@ -242,7 +240,9 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // Event listener for keydown event
-  document.addEventListener('keydown', function (event) {
+  document.addEventListener('keydown', keyUpHandler, false);
+
+  function keyUpHandler(event) {
 
     // Check if the user is typing in an input field. If so, ignore the keydown event
     if (isTypingInInput(event)) return;
@@ -251,24 +251,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (keyAction && !keysPressed[event.code]) {
       sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
-      keysPressed[event.code] = setInterval(function () {
-        sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-1");
-      }, intervalSensitivity);
+      // add the key to the keysPressed object;
+      keysPressed[event.code] = true
     }
-  });
+  };
 
   // Event listener for keyup event
-  document.addEventListener('keyup', function (event) {
+  document.addEventListener('keyup', keyDownHandler, false);
+
+  function keyDownHandler(event) {
     // Check if the user is typing in an input field. If so, ignore the keydown event
     if (isTypingInInput(event)) return;
 
     const keyAction = keyMappings[event.code];
     if (keyAction && keysPressed[event.code]) {
-      clearInterval(keysPressed[event.code]);
       sendCommand(keyAction.actionMessage, keyAction.commandSuffix + "-0");
       delete keysPressed[event.code];
     }
-  });
+  };
 
 
 });
