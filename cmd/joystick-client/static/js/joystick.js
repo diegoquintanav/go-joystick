@@ -114,29 +114,35 @@ document.getElementById('dropdown-button').addEventListener('click', function ()
 
 document.addEventListener('DOMContentLoaded', function () {
   const users = [
-    { name: 'user-1', icon: '_auto' },
     { name: 'marta', icon: '_auto' },
     { name: 'pol', icon: '_auto' },
-    { name: 'joana', icon: '_auto' },
-    { name: 'juanpe', icon: '_auto' },
-    { name: 'david', icon: '_auto' },
-    { name: 'marite', icon: '_auto' },
-    { name: 'isra', icon: '_auto' },
-    { name: 'daniestanyol', icon: '_auto' },
-    { name: 'xavidolz', icon: '_auto' },
-    { name: 'benjami', icon: '_auto' },
-    { name: 'nuse', icon: '_auto' },
-    { name: 'fran', icon: '_auto' },
-    { name: 'jordi', icon: '_auto' },
-    { name: 'joan', icon: '_auto' },
-    { name: 'raul', icon: '_auto' },
-    { name: 'lucia', icon: '_auto' },
-    { name: 'pere', icon: '_auto' },
-    { name: 'bea', icon: '_auto' },
+    { name: 'gil', icon: '_auto' },
+    { name: 'diego', icon: '_auto' },
     { name: 'angel', icon: '_auto' },
-    { name: 'oriol', icon: '_auto' },
-    { name: 'xavierbonet', icon: '_auto' },
+    { name: 'bea', icon: '_auto' },
+    { name: 'benjami', icon: '_auto' },
+    { name: 'daniestanyol', icon: '_auto' },
     { name: 'daniquilez', icon: '_auto' },
+    { name: 'david', icon: '_auto' },
+    { name: 'fran', icon: '_auto' },
+    { name: 'isra', icon: '_auto' },
+    { name: 'javi', icon: '_auto' },
+    { name: 'jimena', icon: '_auto' },
+    { name: 'joan', icon: '_auto' },
+    { name: 'joana', icon: '_auto' },
+    { name: 'jordi', icon: '_auto' },
+    { name: 'juanpe', icon: '_auto' },
+    { name: 'lucia', icon: '_auto' },
+    { name: 'marite', icon: '_auto' },
+    { name: 'oriol', icon: '_auto' },
+    { name: 'pau', icon: '_auto' },
+    { name: 'pere', icon: '_auto' },
+    { name: 'raul', icon: '_auto' },
+    { name: 'rogerlapena', icon: '_auto' },
+    { name: 'rogersanjaume', icon: '_auto' },
+    { name: 'xavidolz', icon: '_auto' },
+    { name: 'xavierbonet', icon: '_auto' },
+    { name: 'user-1', icon: '_auto' },
   ];
 
   const userListContainer = document.getElementById('user-list');
@@ -151,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const img = document.createElement('img');
 
     if (user.icon === '_auto') {
-      img.src = `https://robohash.org/${user.name}?set=set5`;
+      img.src = `https://robohash.org/${user.name}`;
     } else {
       img.src = user.icon;
     }
@@ -229,7 +235,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Track pressed keys to avoid repeated messages
   const keysPressed = {};
-
 
   // Helper function to check if the target element is an input field with class 'my-input'
   function isTypingInInput(event) {
